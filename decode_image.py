@@ -28,7 +28,17 @@ def decode_image(path_to_png):
     x_size, y_size = encoded_image.size
 
     # TODO: Using the variables declared above, replace `print(red_channel)` with a complete implementation:
-    print(red_channel)  # Start coding here!
+    # print(red_channel)  # Start coding here!
+    for x in range(x_size):
+        for y in range(y_size):
+
+            # if pixel string ends with 0, the pixel at x_size, y_size == black
+            if bin(red_channel.getpixel((x, y)))[-1] == '0':
+                pixels[x, y] = (0, 0, 0)
+            # if ends with 1, the pixel at x_size, y_size == white
+            else:
+                pixels[x, y] = (255, 255, 255)
+
 
     # DO NOT MODIFY. Save the decoded image to disk:
     decoded_image.save("decoded_image.png")
