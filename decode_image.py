@@ -14,7 +14,8 @@ from PIL import Image
 
 def decode_image(path_to_png):
     """
-    TODO: Add docstring and complete implementation.
+    decodes png by isolating red channel and decoding by pixels 
+    creates new black and white image from least significant bits 
     """
     # Open the image using PIL:
     encoded_image = Image.open(path_to_png)
@@ -27,15 +28,13 @@ def decode_image(path_to_png):
     pixels = decoded_image.load()
     x_size, y_size = encoded_image.size
 
-    # TODO: Using the variables declared above, replace `print(red_channel)` with a complete implementation:
-    # print(red_channel)  # Start coding here!
     for x in range(x_size):
         for y in range(y_size):
-
-            # if pixel string ends with 0, the pixel at x_size, y_size == black
+            # use bin to get binary representation
+            # if pixel string ends with 0, then make pixel black
             if bin(red_channel.getpixel((x, y)))[-1] == '0':
                 pixels[x, y] = (0, 0, 0)
-            # if ends with 1, the pixel at x_size, y_size == white
+            # else if pixel ends with 1, then make pixel white
             else:
                 pixels[x, y] = (255, 255, 255)
 
@@ -43,6 +42,8 @@ def decode_image(path_to_png):
     # DO NOT MODIFY. Save the decoded image to disk:
     decoded_image.save("decoded_image.png")
 
+path_to_png = "doggo_encoded.png"
+decode_image(path_to_png)
 
 def encode_image(path_to_png):
     """
