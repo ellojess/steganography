@@ -42,8 +42,9 @@ def decode_image(path_to_png):
     # DO NOT MODIFY. Save the decoded image to disk:
     decoded_image.save("decoded_image.png")
 
-path_to_png = "doggo_encoded.png"
-decode_image(path_to_png)
+# test code 
+# path_to_png = "doggo_encoded.png"
+# decode_image(path_to_png)
 
 
 def encode_image(text_to_encode, image_to_encode):
@@ -71,13 +72,13 @@ def encode_image(text_to_encode, image_to_encode):
     for x in range(x_size):
         for y in range(y_size):
             red_channel_pix = bin(red_channel.getpixel(x, y))
-            original_pix = red_channel_pix.getpixel((x, y))
+            original_pix = red_channel.getpixel((x, y))
             tencode_pix = bin(black_white_encode.getpixel(x, y))
 
             if tencode_pix[-1] == '1':
-                red_channel_pix = red_channel_pix[:-1] + ''
+                red_channel_pix = red_channel_pix[:-1] + '1'
             else :
-                red_channel_pix = red_channel_pix[:-1] + ''
+                red_channel_pix = red_channel_pix[:-1] + '0'
             
             pixels[x, y] = (int(red_channel_pix, 2), green_channel.getpixel(x, y), blue_channel.getpixel(x, y)) 
             
@@ -88,7 +89,7 @@ def encode_image(text_to_encode, image_to_encode):
 
 def write_text(text_to_write, image_size):
     """
-    TODO: Add docstring and complete implementation.
+    Write text to RGB image 
     """
  
     image_text = Image.new("RGB", image_size)
@@ -105,5 +106,5 @@ def write_text(text_to_write, image_size):
 
 
 if __name__ == '__main__':
+    decode_image("doggo_encoded.png")
     encode_image("hello world", "doggo_encoded.png")
-    decode_image()
