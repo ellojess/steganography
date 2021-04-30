@@ -9,7 +9,8 @@ Deliverables:
     3. Your own image encoded with hidden secret text!
 """
 # TODO: Run `pip3 install Pillow` before running the code.
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
+import textwrap
 
 
 def decode_image(path_to_png):
@@ -49,7 +50,7 @@ def decode_image(path_to_png):
 
 def encode_image(text_to_encode, image_to_encode):
     """
-    Encode message into an image 
+    encodes message into an image 
     """
 
     # Open the image using PIL:
@@ -61,30 +62,29 @@ def encode_image(text_to_encode, image_to_encode):
     blue_channel = image_to_encode.split()[2]
 
     # encode text into image 
-    x_size, y_size = image_to_encode
+    x_size = image_to_encode.size[0]
+    y_size = image_to_encode.size[1]
     encoded_image = Image.new("RGB", (x_size, y_size))
     pixels = encoded_image.load()
 
-    # text draw 
-    image_text = write_text(text_to_encode, image_to_encode.s)
+    # text draw
+    image_text = write_text(text_to_encode, image_to_encode.size)
     black_white_encode = image_text.convert('1')
-
+   
+    
     for x in range(x_size):
         for y in range(y_size):
-            red_channel_pix = bin(red_channel.getpixel(x, y))
-            original_pix = red_channel.getpixel((x, y))
-            tencode_pix = bin(black_white_encode.getpixel(x, y))
+            red_template_pix = bin(red_channel.getpixel((x,y)))
+            tencode_pix = bin(black_white_encode.getpixel((x,y)))
 
+            # take string and convert to black & white image of string
             if tencode_pix[-1] == '1':
-                red_channel_pix = red_channel_pix[:-1] + '1'
-            else :
-                red_channel_pix = red_channel_pix[:-1] + '0'
-            
-            pixels[x, y] = (int(red_channel_pix, 2), green_channel.getpixel(x, y), blue_channel.getpixel(x, y)) 
-            
+                red_template_pix = red_template_pix[:-1] + '1'
+            else:
+                red_template_pix = red_template_pix[:-1] + '0'
+            pixels[x, y] = (int(red_template_pix, 2), green_channel.getpixel((x,y)), blue_channel.getpixel((x,y)))
+
     encoded_image.save("encoded_image.png")
-
-
 
 
 def write_text(text_to_write, image_size):
